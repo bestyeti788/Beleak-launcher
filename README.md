@@ -12,8 +12,8 @@ A minimal launcher focused on one goal: launching Minecraft quickly and efficien
 
 ## Screenshots
 
-<img width="1672" height="1003" alt="Capture d&#39;écran 2026-05-03 133842" src="https://github.com/user-attachments/assets/1832d42d-5dcc-4a9f-8a29-d8c92f38304e" />
-<img width="1677" height="999" alt="Capture d&#39;écran 2026-05-03 133756" src="https://github.com/user-attachments/assets/2b33da72-b121-4fd5-a4c0-687cb05a1bf6" />
+<img width="836" height="501" alt="Capture d&#39;écran 2026-05-03 133842" src="https://github.com/user-attachments/assets/1832d42d-5dcc-4a9f-8a29-d8c92f38304e" />
+<img width="838" height="500" alt="Capture d&#39;écran 2026-05-03 133756" src="https://github.com/user-attachments/assets/2b33da72-b121-4fd5-a4c0-687cb05a1bf6" />
 
 
 ---
