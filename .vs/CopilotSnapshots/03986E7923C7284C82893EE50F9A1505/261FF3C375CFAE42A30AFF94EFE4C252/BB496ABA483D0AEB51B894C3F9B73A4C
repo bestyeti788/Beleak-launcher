@@ -1,0 +1,84 @@
+﻿using Avalonia.Controls;
+using Avalonia.Threading;
+using CmlLib.Core;
+using CmlLib.Core.Auth;
+using CmlLib.Core.ProcessBuilder;
+using CmlLib.Core.Installers.Forge;
+using System;
+using System.Threading;
+using System.Threading.Tasks;
+
+namespace minecraft_launcher
+{
+    public partial class MainWindow : Window
+    {
+        public MainWindow()
+        {
+            InitializeComponent();
+        }
+
+        private async void PlayButton_Click(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
+        {
+            try
+            {
+                ProgressBar.Value = 0;
+                StatusText.Text = "Preparing...";
+
+                // 📁 Minecraft folder
+                var path = new MinecraftPath();
+                var launcher = new MinecraftLauncher(path);
+
+                // 🔧 Forge installer
+                var forgeInstaller = new ForgeInstaller(launcher);
+
+                var installOptions = new ForgeInstallOptions
+                {
+                    JavaPath = "java.exe",
+                    SkipIfAlreadyInstalled = true,
+                    CancellationToken = CancellationToken.None
+                };
+
+                StatusText.Text = "Installing Forge...";
+
+             
+                var forgeVersion = await forgeInstaller.Install("1.20.1", installOptions);
+
+                StatusText.Text = "Launching...";
+
+         
+                launcher.ByteProgressChanged += (s, args) =>
+                {
+                    var percent = (double)args.ProgressedBytes / args.TotalBytes * 100;
+
+                    Dispatcher.UIThread.Post(() =>
+                    {
+                        ProgressBar.Value = percent;
+                        StatusText.Text = $"Downloading... {percent:0}%";
+                    });
+                };
+
+               
+                var launchOptions = new MLaunchOption
+                {
+                    MaximumRamMb = 4096,
+                    Session = MSession.CreateOfflineSession("Player123")
+                };
+
+        
+                var process = await launcher.BuildProcessAsync(forgeVersion, launchOptions);
+
+                var wrapper = new ProcessWrapper(process);
+                wrapper.StartWithEvents();
+
+                StatusText.Text = "Minecraft Forge running";
+
+                await Task.Delay(1000);
+            }
+            catch (Exception ex)
+            {
+                StatusText.Text = "Error: " + ex.Message;
+                Console.WriteLine(ex);
+            }
+        }
+    }
+}
