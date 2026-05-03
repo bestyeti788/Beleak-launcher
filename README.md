@@ -116,11 +116,6 @@ The project is complete, but you are free to fork it, modify it, or use it as a 
 
 ---
 
-## License
-
-MIT License
-
----
 
 ## Support
 
